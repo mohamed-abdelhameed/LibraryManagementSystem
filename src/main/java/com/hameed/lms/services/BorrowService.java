@@ -56,8 +56,9 @@ public class BorrowService {
 			if (borrowRef.isPresent()) throw new ResourceNotFoundException("Book is already borrowed by this patron");
 			if (borrowRef.isEmpty()) {
 				Borrow borrow = new Borrow();
-				borrow.setBookId(bookId);
-				borrow.setPatronId(patronId);
+				borrow.setBook(book.get());
+				borrow.setPatron(patron.get());
+				borrow.setIsReturned(false);
 				borrow.setBorrowedDate(new Date());
 				borrowRepo.save(borrow);
 				return true;

@@ -1,10 +1,10 @@
-package com.hameed.todo;
+package com.hameed.lms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TodoApplicationTests {
+class LMSApplicationTests {
 
 	@Test
 	void contextLoads() {
