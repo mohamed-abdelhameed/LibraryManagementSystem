@@ -12,5 +12,5 @@ import java.util.Optional;
 
 @Repository
 public interface BorrowRepository extends JpaRepository<Borrow, Integer> {
-	public Optional<Borrow> findByBookIdAndPatronId(Integer bookId,Integer patronId);
+	public List<Borrow> findByBookIdAndPatronId(Integer bookId,Integer patronId);
 }

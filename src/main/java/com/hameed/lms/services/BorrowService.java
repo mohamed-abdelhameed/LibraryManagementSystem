@@ -31,10 +31,10 @@ public class BorrowService {
 		Optional<Patron> patron = patronRepo.findById(patronId);
 		patron.orElseThrow(() -> new ResourceNotFoundException("Patron not found"));
 		if (book.isPresent() && patron.isPresent()) {
-			Optional<Borrow> borrowRef = borrowRepo.findByBookIdAndPatronId(bookId, patronId);
-			borrowRef.orElseThrow(() -> new ResourceNotFoundException("Book is not borrowed by this patron"));
-			if(borrowRef.isPresent()) {
-				Borrow borrow = borrowRef.get();
+			List<Borrow> borrowRef = borrowRepo.findByBookIdAndPatronId(bookId, patronId).stream().filter(b -> !b.getIsReturned()).toList();
+			if (borrowRef.isEmpty()) throw new ResourceNotFoundException("Book is not borrowed by this patron");
+			if(!borrowRef.isEmpty()) {
+				Borrow borrow = borrowRef.get(0);
 				if(borrow.getIsReturned()) throw new ResourceNotFoundException("Book is already returned by this patron");
 				borrow.setReturnDate(new Date());
 				borrow.setIsReturned(true);
@@ -52,8 +52,8 @@ public class BorrowService {
 		patron.orElseThrow(() -> new ResourceNotFoundException("Patron not found"));
 		
 		if (book.isPresent() && patron.isPresent()) {
-			Optional<Borrow> borrowRef = borrowRepo.findByBookIdAndPatronId(bookId, patronId);
-			if (borrowRef.isPresent()) throw new ResourceNotFoundException("Book is already borrowed by this patron");
+			List<Borrow> borrowRef = borrowRepo.findByBookIdAndPatronId(bookId, patronId).stream().filter(b -> !b.getIsReturned()).toList();
+			if (!borrowRef.isEmpty()) throw new ResourceNotFoundException("Book is already borrowed by this patron");
 			if (borrowRef.isEmpty()) {
 				Borrow borrow = new Borrow();
 				borrow.setBook(book.get());
