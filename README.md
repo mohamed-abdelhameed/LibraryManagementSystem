@@ -10,5 +10,4 @@
 - Run the jar file in target folder
 
 ## To interact with API Endpoints
-- There's a postman collection in the project (LMS.postman_collection.json)
-- You can use postman with that collection to interact with endpoints
+- Navigate to http://localhost:8080/swagger-ui/index.html
